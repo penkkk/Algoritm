@@ -1,3 +1,10 @@
-.exe
-.docx
-.doc
+*.exe
+*.out
+*.obj
+*.o
+*.dll
+*.so
+/build/
+/bin/
+/Debug/
+/Release/
