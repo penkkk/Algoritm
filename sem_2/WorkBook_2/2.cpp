@@ -19,18 +19,32 @@ Node* newNode(int data)
 
 pair<Node*, Node*> foo(Node* head, int target){
     Node* current = head;
-    Node* list1 = nullptr;
-    Node* list2 = nullptr;
-    while (current != nullptr){
+    Node* listHead1 = nullptr; Node* listTail1 = nullptr;
+    Node* listHead2 = nullptr; Node* listTail2 = nullptr;
+    while (current){
+        Node* next = current->next;
+        current->next = nullptr;
         if (current->data < target){
-            Node* list1 = newNode(current->data);      
+            if (!listHead1){
+                listHead1 = listTail1 = current;
+            }
+            else{
+                listTail1->next = current;
+                listTail1 = current;
+            }
         }
         else{
-            Node* list2 = newNode(current->data);
+            if (!listHead2){
+                listHead2 = listTail2 = current;
+            }
+            else{
+                listTail2->next = current;
+                listTail2 = current;
+            }
         }
-        current->next;
+        current = next;
     }
-    return {list1, list2};
+    return {listHead1, listHead2};
 }
 
 int main(){
