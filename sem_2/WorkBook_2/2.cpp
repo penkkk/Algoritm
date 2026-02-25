@@ -47,12 +47,22 @@ pair<Node*, Node*> foo(Node* head, int target){
     return {listHead1, listHead2};
 }
 
+void printList(Node* head){
+    Node* ptr = head;
+    while(ptr){
+        cout << ptr->data << " -> ";
+        ptr = ptr->next;
+    }
+    cout << nullptr << endl;
+}
+
 int main(){
     Node* a1 = newNode(1); Node* a2 = newNode(2); Node* a3 = newNode(3);
     a1->next = a2;
     a2->next = a3;
     auto [a,b] = foo(a1, 2);
-    cout << a << ' ' << b;
+    printList(a);
+    printList(b);
     return 0;
 }
 
