@@ -119,13 +119,29 @@ void printListReverse(Node* tail){
     }
 }
 
+
+bool is_palindrome(Node*& head, Node*& tail){
+    Node* cur1 = head;
+    Node* cur2 = tail;
+    while (cur1 != cur2){
+        if (cur1->value != cur2->value){
+            return false;
+        }
+        cur1 = cur1->next;
+        cur2 = cur2->prev;
+    }
+    return true;
+}
+
+
 int main(){
     Node* head = nullptr;
     Node* tail = nullptr;
     append(head, tail, 1);
     append(head, tail, 2);
-    append(head, tail, 3);
-    append(head, tail, 4);
+    append(head, tail, 2);
+    append(head, tail, 1);
+    cout << is_palindrome(head, tail) << endl;
     printList(head);
     cout << endl;
     insert(head, tail,1,67);
