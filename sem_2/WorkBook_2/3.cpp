@@ -10,15 +10,15 @@ public:
 };
 
 void append(Node*& head, Node*& tail, int value){ //добавление элемента в конец
-    Node* newNode = new Node;
-    newNode -> value = value;
-    if (!head){
+    Node* newNode = new Node; // создаем новый узел
+    newNode -> value = value;   // создаем новый узел
+    if (!head){ // если элементов нет то новый узел становится первым, который указывает сам на себя с двух сторон,
         newNode->next = newNode;
         newNode->prev = newNode;
         head = tail = newNode;
     }
-    else{
-        tail->next = newNode;
+    else{//иначе добавляем после хвоста: элемент становится хвостом указывает на голову меняем хвост
+        tail->next = newNode; 
         newNode->next = head;
         newNode->prev = tail;
         head->prev = newNode;
@@ -41,14 +41,15 @@ void printList(Node* head){ // вывод значений
 
 Node* del(Node* head, Node* tail, int target){
     Node* current = head;
+    Node* next = current->next;
     while (current != tail){
-        if (current->value == target){
+        if (current->value == target){ //пока не дошли до таргета 
             current->prev->next = current -> next;
             current->next->prev = current -> prev;
             delete current;
             return head;
         }
-        current = current->next;
+        current = next;
     }
     return head;
 }
