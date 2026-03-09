@@ -44,8 +44,8 @@ Node* del(Node* head, Node* tail, int target){
     Node* next = current->next;
     while (current != tail){
         if (current->value == target){ //пока не дошли до таргета 
-            current->prev->next = current -> next;
-            current->next->prev = current -> prev;
+            current->prev->next = current -> next; //соединяем указатель на след эл-т у предыдущего эл-та
+            current->next->prev = current -> prev;//указатель на пред. элемент у след. элемента
             delete current;
             return head;
         }
