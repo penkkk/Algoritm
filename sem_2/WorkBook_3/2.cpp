@@ -42,17 +42,28 @@ int min(int a, int b){
 
 int nearestElement(Node* root, int target){
 
-    if (!root);
+    if (!root) return 0;
 
-    int temp, ans, eps = 1000000;
+    int temp, ans = 9999999, eps = 1000000;
 
     while (root){
         temp = root->data;
-        eps = min(fabs(temp - target), eps);
-        if (fabs(temp - target) == eps){
+        eps = min(abs(temp - target), eps);
+        if (abs(temp - target) == eps && temp < ans){
             ans = temp;
         }
+        if (temp < target){
+            root = root->right;
+        }
+        else if (temp > target){
+            root = root->left;
+        }
+        else{
+            return temp;
+            break;
+        }
     }
+    return ans;
 }
 
 
@@ -68,7 +79,8 @@ int main(){
     cout << endl;
     directByPass(root);
     cout << endl;
-    int ans = nearestElement(root, 35);
+    cout << "Ближайший элемент: ";
+    int ans = nearestElement(root, 6);
     cout << ans << endl;
     return 0;
 }
