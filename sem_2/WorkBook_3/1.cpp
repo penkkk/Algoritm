@@ -70,7 +70,7 @@ bool searchElement(Node* root, int data){
 
 
 Node* deleteNode(Node* root, int data){
-    if (searchElement(root, data)){
+
         if (!root) return NULL;
         
         if (root->data < data){
@@ -126,7 +126,7 @@ Node* deleteNode(Node* root, int data){
 
         }
     return root;
-    }
+    
 }
 
 

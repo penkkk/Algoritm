@@ -77,3 +77,79 @@ void printPhone(Node* root, string name){
         searchPhone(root, name);
     }
 }
+
+
+Node* deleteNode(Node* root, string name){
+        if (!root) return NULL;
+        
+        if (root->name < name){
+            root->right = deleteNode(root->right, name);
+        }
+        else if (root->name > name){
+            root->left = deleteNode(root->left, name);
+        }
+        else {
+            // первый случай
+            if (root->left == NULL && root->right == NULL){
+                delete root;
+                return NULL;
+            }
+            // ==================================
+
+            // второй случай
+            else if (root->left && root->right && root->left->right){
+                
+                Node* mxNode = root->left;
+                while (mxNode->right != NULL){
+                    mxNode = mxNode->right;
+                }
+                root->name = mxNode->name;
+                root->phones = mxNode->phones;
+                root->left = deleteNode(root->left, mxNode->name); // из левого поддерева первым случаем удалим зуел со значением которое поставили на место удаляемого
+            }
+
+            // ==================================
+
+            // третий случай
+            else if (root->left && root->right && root->left->right == NULL){
+                Node* oldRoot = root;
+                root = root->left;
+                root->right = oldRoot->right;
+                delete oldRoot;
+            }
+            // ==================================
+
+            //четвертый случай
+            else{
+                if (root->left == NULL){
+                    Node* nextRoot = root->right;
+                    delete root;
+                    return nextRoot;
+                }
+                else if (root->right == NULL){
+                    Node* nextRoot = root->left;
+                    delete root;
+                    return nextRoot;
+                }
+            }
+            //=====================
+
+        }
+    return root;
+
+}
+
+
+int main(){
+    while(true){
+        cout << "===Телефонная книга===" << endl;
+        cout << "(1) Добавить контакт" << endl;
+        cout << "(2) Найти номер контакта" << endl;
+        cout << "(3) Удаление контакта" << endl;
+        cout << "(0) Главное меню" << endl;
+
+
+        int command;
+        cin >> command;
+    }
+}
