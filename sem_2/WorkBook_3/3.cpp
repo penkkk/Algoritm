@@ -141,15 +141,65 @@ Node* deleteNode(Node* root, string name){
 
 
 int main(){
-    while(true){
-        cout << "===Телефонная книга===" << endl;
-        cout << "(1) Добавить контакт" << endl;
-        cout << "(2) Найти номер контакта" << endl;
-        cout << "(3) Удаление контакта" << endl;
-        cout << "(0) Главное меню" << endl;
+    Node* root = NULL;
 
+    while(true){
+        cout << "======Телефонная книга=====" << endl;
+        cout << "|(1) Добавить контакт     |" << endl;
+        cout << "|(2) Найти номер контакта |" << endl;
+        cout << "|(3) Удаление контакта    |" << endl;
+        cout << "|(0) Выход из программы   |" << endl;
+        cout << "===========================" << endl;
 
         int command;
         cin >> command;
+        
+        if (command == 0) break;
+
+        switch (command){
+            case 1:{
+
+                string name;
+                string phone;
+                int countPhone;
+                vector<string> phones;
+
+                cout << "Введите имя нового контакта: ";
+                cin >> name;
+                cout << "Введите количество добавляемых номеров для контакта " << name << ": ";
+                cin >> countPhone;
+                cout << "Введите номера контакта: ";
+                for (int i = 0; i < countPhone; i++){
+                    cin >> phone;
+                    phones.push_back(phone);
+                }
+                root = insert(root, name, phones);
+                cout << "Контакт добавлен в телефонну книжку" << endl;
+                break;
+            }
+
+            case 2:{
+                string name;
+                cout << "Введите имя контакта: ";
+                cin >> name;
+                cout << "Телефоны контакта " << name << ": ";
+                printPhone(root, name);
+                break;
+            }
+
+            case 3:{
+                string name;
+                cout << "Введите имя контакта для удаления: ";
+                cin >> name;
+                root = deleteNode(root, name);
+                break;
+            }
+
+            default:
+                break;
+
+        }
     }
+
+    return 0;
 }
