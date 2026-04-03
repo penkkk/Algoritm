@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <climits>
 using namespace std;
 
 struct Node{
@@ -44,7 +45,7 @@ int nearestElement(Node* root, int target){
 
     if (!root) return 0;
 
-    int temp, ans = 9999999, eps = 1000000;
+    int temp, ans = INT_MAX, eps = INT_MAX;
 
     while (root){
         temp = root->data;
