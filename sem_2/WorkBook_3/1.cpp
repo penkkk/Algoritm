@@ -6,7 +6,7 @@ using namespace std;
 struct Node{
     int data;
     Node* left;
-    Node* right;
+    Node* right;    
 };
 
 Node* createNode(int data){
@@ -39,7 +39,6 @@ Node* treeFilling(Node* root, int count){
     for (int i = 0; i < count; i++){
         root = insert(root, rand()%100); 
     }
-    
     return root;
 }
 
