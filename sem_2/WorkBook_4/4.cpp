@@ -81,3 +81,28 @@ bool ifNodeRedThenChildBlack(Node* root){
 
     return ifNodeRedThenChildBlack(root->left) && ifNodeRedThenChildBlack(root->right);
 }
+
+int countBlackNode(Node* root){
+    int count = 0;
+    
+    while (root != nullptr) {
+        if (root->color == 'b') count++;
+        root = root->left;
+    }
+    return count + 1;
+} 
+
+
+
+bool blackNodeEquals(Node* root, int reference, int count = 0){
+    if (root == nullptr) {
+        count++;
+        return (reference == count);
+    }
+
+    if (root->color == 'b'){
+        count ++;
+    }
+
+    return blackNodeEquals(root->left, reference, count) && blackNodeEquals(root->right, reference, count);
+}
