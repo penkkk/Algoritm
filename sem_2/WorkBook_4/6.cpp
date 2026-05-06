@@ -177,10 +177,11 @@ void deleteNode(Node*& root, int data){
 
     if (!findNode(root, data)) return;
 
-
-    delete root;
     Node* leftChild = root->left;
     Node* rightChild = root->right;
+
+    delete root;
+
 
     if (!leftChild){
         root = rightChild;
