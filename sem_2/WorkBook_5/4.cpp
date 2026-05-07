@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 using namespace std;
 
 void heapifyUp(int index, vector<int>& array){
@@ -14,13 +15,6 @@ void heapifyUp(int index, vector<int>& array){
         }
     }
 }
-
-void insert(int data, vector<int>& array){
-    array.push_back(data);
-    heapifyUp(array.size() - 1, array);
-}
-
-
 
 void heapDown(int idx, vector<int>& array){
     size_t size = array.size();
@@ -47,12 +41,6 @@ void heapDown(int idx, vector<int>& array){
     }
 }
 
-int getMin(vector<int>& array){
-    if (!array.empty()){
-        return array[0];
-    }
-}
-
 
 int extractMin(vector<int>& array){
     if (!array.empty()){
@@ -62,8 +50,10 @@ int extractMin(vector<int>& array){
         heapDown(0, array);
         return minimal;
     }
+    else{
+        throw runtime_error("error");
+    }
 }
-
 
 void printHeap(vector<int>& array){
     for (int value : array){
@@ -72,14 +62,35 @@ void printHeap(vector<int>& array){
     cout << endl;
 }
 
-int main(){
-    vector<int> inputArray = {10, 20, 30, 12, 15};
-    vector<int> ourHeap;
-    for (auto i : inputArray){
-        insert(i, ourHeap);
-    }
+void buildHeap(vector<int>& ourHeap){
+    for (int i = (ourHeap.size()/2 - 1); i >= 0; i--){
+        heapDown(i, ourHeap);
+    }    
+}
 
-    printHeap(inputArray);
-    printHeap(ourHeap);
+void insert(int data, vector<int>& array){
+    array.push_back(data);
+    heapifyUp(array.size() - 1, array);
+}
+
+int main(){
+
+    vector<int> input{10,13,5,2,6};
+    buildHeap(input);
+    printHeap(input);
+    
+    int curSum = 0;
+    int total = 0;
+
+    while(input.size() > 1){
+        int mn1 = extractMin(input);
+        int mn2 = extractMin(input);
+        curSum = mn1 + mn2;
+        total += curSum;
+        cout << "Связываем " << mn1 << " и " << mn2 << " с затратами: " << curSum << endl;
+        insert(curSum, input);
+    }
+    cout << "Общие затраты: " << total << endl;
+
     return 0;
 }
