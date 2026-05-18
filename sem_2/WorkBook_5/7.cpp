@@ -72,3 +72,32 @@ Task extractMax(vector<Task>& array){
         return {name, maximum};
     }
 }
+
+
+void editTask(string task, int newPriority, vector<Task>& array){
+    int flag = 0;
+    int idx;
+    for (int i = 0; i < array.size(); i++){
+        if (array[i].data == task){
+            idx = i;
+            flag = 1;
+            break;
+        }
+    }
+
+    if (flag == 1){
+        int oldPriority = array[idx].priority;
+        array[idx].priority = newPriority;
+
+        if (oldPriority > newPriority){
+            heapDown(idx, array);
+        }
+        else{
+            heapUp(idx, array);
+        }
+    }
+    else{
+        throw runtime_error("error");
+    }
+
+}
