@@ -8,11 +8,13 @@ using namespace std;
 
 
 struct Stat {
-    long long comparisons = 0; // Число сравнений элементов массива
-    long long swaps = 0;       // Число перестановок (свопов или сдвигов)
-    double duration_ms = 0.0;  // Время выполнения в миллисекундах
+    long long comparisons = 0; 
+    long long swaps = 0;       
+    double duration_ms = 0.0;  
 };
 
+
+// Для хипсорта
 void heapDown(int idx, vector<int>& ourHeap, size_t ourHeapSize, Stat& stat){
     while (true)
     {
@@ -67,9 +69,12 @@ void heapSort(vector<int>& array, Stat& stat){
     auto end = chrono::high_resolution_clock::now();
     stat.duration_ms = chrono::duration<double, milli>(end - start).count();
 }
+// конец хипсорта в задание
 
 
-// ==================== QUICK SORT (Быстрая) ====================
+
+// далее описаны сортировки
+
 void quickSortInternal(vector<int>& arr, int low, int high, Stat& stat) {
     if (low < high) {
        
@@ -84,11 +89,11 @@ void quickSortInternal(vector<int>& arr, int low, int high, Stat& stat) {
             while (arr[j] > pivot) { stat.comparisons++; j--; }
             stat.comparisons++; 
             
-            if (i < j) { // Поменяли с <= на <
+            if (i < j) { 
                 swap(arr[i], arr[j]);
                 stat.swaps++;
             }
-            // Но индексы i и j для корректного расхождения всё равно нужно сдвинуть, если они сошлись:
+            
             if (i <= j) {
                 i++;
                 j--;
@@ -109,7 +114,7 @@ void quickSort(vector<int>& arr, Stat& stat) {
     stat.duration_ms = chrono::duration<double, milli>(end - start).count();
 }
 
-// ==================== BUBBLE SORT (Пузырьковая) ====================
+
 void bubbleSort(vector<int>& arr, Stat& stat) {
     auto start = chrono::high_resolution_clock::now();
     int n = arr.size();
@@ -123,13 +128,13 @@ void bubbleSort(vector<int>& arr, Stat& stat) {
                 swapped = true;
             }
         }
-        if (!swapped) break; // Оптимизация: если за проход ничего не поменяли — массив отсортирован
+        if (!swapped) break;
     }
     auto end = chrono::high_resolution_clock::now();
     stat.duration_ms = chrono::duration<double, milli>(end - start).count();
 }
 
-// ==================== INSERTION SORT (Вставками) ====================
+
 void insertionSort(vector<int>& arr, Stat& stat) {
     auto start = chrono::high_resolution_clock::now();
     int n = arr.size();
@@ -140,7 +145,7 @@ void insertionSort(vector<int>& arr, Stat& stat) {
             stat.comparisons++;
             if (arr[j] > key) {
                 arr[j + 1] = arr[j];
-                stat.swaps++; // Сдвиг элемента считаем эквивалентом перестановки
+                stat.swaps++; 
                 j--;
             } else {
                 break;
@@ -152,7 +157,7 @@ void insertionSort(vector<int>& arr, Stat& stat) {
     stat.duration_ms = chrono::duration<double, milli>(end - start).count();
 }
 
-// ==================== SELECTION SORT (Выбором) ====================
+
 void selectionSort(vector<int>& arr, Stat& stat) {
     auto start = chrono::high_resolution_clock::now();
     int n = arr.size();
@@ -173,7 +178,7 @@ void selectionSort(vector<int>& arr, Stat& stat) {
     stat.duration_ms = chrono::duration<double, milli>(end - start).count();
 }
 
-// ==================== СТЕНД ТЕСТИРОВАНИЯ ====================
+
 void printRow(string algo, Stat s) {
     cout << setw(15) << left << algo 
          << setw(15) << s.comparisons 
@@ -189,13 +194,13 @@ void runTests(string testName, const vector<int>& original) {
     vector<int> arr;
     Stat s;
 
-    // Heap Sort (Ваша)
+    
     arr = original; s = Stat(); heapSort(arr, s); printRow("Heap Sort", s);
 
-    // Quick Sort
+    
     arr = original; s = Stat(); quickSort(arr, s); printRow("Quick Sort", s);
 
-    // Квадратичные алгоритмы запускаем только на небольших массивах
+
     if (original.size() <= 2000) {
         arr = original; s = Stat(); bubbleSort(arr, s); printRow("Bubble Sort", s);
         arr = original; s = Stat(); insertionSort(arr, s); printRow("Insertion", s);
@@ -211,31 +216,31 @@ int main() {
     const int SMALL_SIZE = 1000;
     const int LARGE_SIZE = 40000;
 
-    // 1. Небольшой частично отсортированный массив
+    
     vector<int> small_partially(SMALL_SIZE);
     for(int i = 0; i < SMALL_SIZE; i++) small_partially[i] = i;
     for(int i = 0; i < SMALL_SIZE; i += 15) {
         if(i + 1 < SMALL_SIZE) swap(small_partially[i], small_partially[i+1]);
     }
 
-    // 2. Небольшой массив, отсортированный по убыванию
+    
     vector<int> small_desc(SMALL_SIZE);
     for(int i = 0; i < SMALL_SIZE; i++) small_desc[i] = SMALL_SIZE - i;
 
-    // 3. Небольшой массив, отсортированный по возрастанию
+    
     vector<int> small_asc(SMALL_SIZE);
     for(int i = 0; i < SMALL_SIZE; i++) small_asc[i] = i;
 
-    // 4. Небольшой случайный массив
+    
     vector<int> small_rand(SMALL_SIZE);
-    mt19937 rng(123); // фиксированный сид для честности теста
+    mt19937 rng(123); 
     for(int i = 0; i < SMALL_SIZE; i++) small_rand[i] = rng() % 10000;
 
-    // 5. Большой случайный массив
+
     vector<int> large_rand(LARGE_SIZE);
     for(int i = 0; i < LARGE_SIZE; i++) large_rand[i] = rng() % 100000;
 
-    // Запуск бенчмарков
+    
     runTests("Частично отсортирован (1k)", small_partially);
     runTests("По убыванию (1k)", small_desc);
     runTests("По возрастанию (1k)", small_asc);
